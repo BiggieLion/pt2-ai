@@ -1,0 +1,13 @@
+version: "3.5"
+
+services:
+  flask:
+    build: .
+    ports:
+      - "5001:5000"
+    networks:
+      - pt2-backend_network
+
+networks:
+  pt2-backend_network:
+    external: true
