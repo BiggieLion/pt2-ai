@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 529088267818.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - echo Build started on `date`
+
+      - echo Building and tagging ai docker image...
+      - docker build -t ai -f ./Dockerfile . --no-cache
+      - docker tag ai:latest 529088267818.dkr.ecr.us-east-1.amazonaws.com/ai:latest
+  post_build:
+    commands:
+      - echo Build completed at `date`
+      - echo Pushing images into Amazon Web Services
+      - docker push 529088267818.dkr.ecr.us-east-1.amazonaws.com/ai:latest
